@@ -2,24 +2,29 @@ cask "colima-desktop" do
   version "0.1.1"
   sha256 "1eba3a8afcb7ae465517545f5d32cf3e28721c31d97d9eb2ec8b33a8a2daf763"
 
-  url "https://github.com/alperen-selcuk/colima-desktop/releases/download/v0.1.1/Colima.Desktop_0.1.1_universal.dmg"
+  url "https://github.com/alperen-selcuk/colima-desktop/releases/download/v#{version}/Colima.Desktop_#{version}_universal.dmg"
   name "Colima Desktop"
   desc "Desktop GUI for managing Colima container runtimes"
   homepage "https://github.com/alperen-selcuk/colima-desktop"
 
-  depends_on macos: ">= :big_sur"
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
   depends_on formula: "colima"
   depends_on formula: "docker"
+  depends_on :macos
 
   app "Colima Desktop.app"
 
   # The current builds are unsigned/unnotarized (no Apple Developer ID is
   # configured yet), so Gatekeeper quarantines the app on first launch.
   # Remove this postflight once release builds are signed and notarized.
-  postflight do
-    system_command "/usr/bin/xattr",
-                    args: ["-dr", "com.apple.quarantine", "#{appdir}/Colima Desktop.app"],
-                    sudo: false
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args: ["-dr", "com.apple.quarantine", "{{appdir}}/Colima Desktop.app"],
+        sudo: false
   end
 
   uninstall quit: "dev.colima.desktop"
@@ -27,9 +32,9 @@ cask "colima-desktop" do
   zap trash: [
     "~/Library/Application Support/dev.colima.desktop",
     "~/Library/Caches/dev.colima.desktop",
-    "~/Library/WebKit/dev.colima.desktop",
     "~/Library/Preferences/dev.colima.desktop.plist",
     "~/Library/Saved Application State/dev.colima.desktop.savedState",
+    "~/Library/WebKit/dev.colima.desktop",
   ]
 
   caveats <<~EOS
