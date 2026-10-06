@@ -1,6 +1,6 @@
 cask "colima-desktop" do
-  version "0.2.1"
-  sha256 "98da2f634b30201d811e59154275b27eb05e9fbc66e634c64860ab92e90a341b"
+  version "0.2.2"
+  sha256 "eed3ae01c735da161a6b0d2a7f690bc1ca90ee1db38ace70b56c17181bea34c7"
 
   url "https://github.com/alperen-selcuk/colima-desktop/releases/download/v#{version}/Colima.Desktop_#{version}_universal.dmg"
   name "Colima Desktop"
@@ -15,6 +15,7 @@ cask "colima-desktop" do
   depends_on formula: "colima"
   depends_on formula: "docker"
   depends_on formula: "docker-compose"
+  depends_on formula: "kubernetes-cli"
   depends_on :macos
 
   app "Colima Desktop.app"
@@ -42,8 +43,12 @@ cask "colima-desktop" do
     Colima Desktop drives the `colima` CLI and needs it (plus `docker`) on your PATH;
     both are installed automatically as dependencies of this cask.
 
-    For the Kubernetes view, also install kubectl:
-      brew install kubectl
+    `kubectl` (Kubernetes view) is also installed automatically.
+
+    Optional: QEMU is only needed for VM type `qemu` (or x86_64 emulation without
+    Rosetta); the default VM type on macOS is `vz`. Install it when needed:
+      brew install qemu
+    (Colima Desktop can also do this for you under Settings > Dependencies.)
 
     For the Docker Compose view, `docker-compose` is installed automatically as a
     dependency of this cask and used as a CLI plugin (`docker compose ...`), not the
