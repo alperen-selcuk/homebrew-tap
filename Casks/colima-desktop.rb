@@ -1,6 +1,6 @@
 cask "colima-desktop" do
   version "0.2.5"
-  sha256 "7124759c7dc348391efe8295e694bf902852198e1d1bf2b6991ff5358db873c2"
+  sha256 "1ac3a84d781a66d323f77c1c600acbb3b3ac0f4e6ca0b7701c377703c6605568"
 
   url "https://github.com/alperen-selcuk/colima-desktop/releases/download/v#{version}/Colima.Desktop_#{version}_universal.dmg"
   name "Colima Desktop"
